@@ -26,4 +26,4 @@ Tars基础工具代码位于cpp/util。
 [tc_atomic](util/tc_atomic/tc_atomic.md)
 
 ###  异常类  tc_ex
-[tc_atomic](util/tc_ex.md)
+[tc_ex](util/tc_ex.md)
