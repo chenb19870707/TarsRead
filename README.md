@@ -24,3 +24,6 @@ Tars完成度非常高，具备了服务器框架的所有功能，非常值得�
 Tars基础工具代码位于cpp/util。
 ###  原子操作类tc_atomic
 [tc_atomic](util/tc_atomic/tc_atomic.md)
+
+###  异常类  tc_ex
+[tc_atomic](util/tc_ex.md)
