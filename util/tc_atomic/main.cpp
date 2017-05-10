@@ -1,5 +1,5 @@
 #include <iostream>
-#include "tc_automic.h"
+#include "tc_atomic.h"
 
 using namespace std;
 
