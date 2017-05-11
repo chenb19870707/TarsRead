@@ -1,9 +1,9 @@
-# 异常类类tc_atomic
+# 异常类类tc_ex
 
 
 ### code：
-[tc_atomic.h](https://github.com/Tencent/Tars/blob/master/cpp/util/include/util/tc_ex.h)   
-[tc_atomic.cpp](https://github.com/Tencent/Tars/blob/master/cpp/util/src/tc_ex.cpp)
+[tc_ex.h](https://github.com/Tencent/Tars/blob/master/cpp/util/include/util/tc_ex.h)   
+[tc_ex.cpp](https://github.com/Tencent/Tars/blob/master/cpp/util/src/tc_ex.cpp)
 
 ## 知识点
 
