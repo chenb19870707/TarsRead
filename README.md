@@ -33,7 +33,7 @@ Tars基础工具代码位于cpp/util。
 [tc_autoptr](util/tc_autoptr/tc_autoptr.md)
 
 ###  共享智能指针类  tc_sharedptr
-[tc_sharedptr](util/tc_sharedptr.md)
+[tc_sharedptr](util/tc_sharedptr/tc_sharedptr.md)
 
 
 
