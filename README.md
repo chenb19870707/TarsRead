@@ -36,7 +36,7 @@ Tars基础工具代码位于cpp/util。
 [tc_sharedptr](util/tc_sharedptr/tc_sharedptr.md)
 
 ###  智能指针类  tc_scopeptr
-[tc_sharedptr](util/tc_scopeptr.md)
+[tc_scopeptr](util/tc_scopeptr.md)
 
 
 ### Base64编解码类 tc_base64
