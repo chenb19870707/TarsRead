@@ -1,4 +1,4 @@
-# 共享智能指针类 tc_sharedptr
+# 智能指针类 TC_ScopedPtr
 
 ## 知识点
 
