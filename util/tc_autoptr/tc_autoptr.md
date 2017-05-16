@@ -6,6 +6,148 @@
 
 ## 知识点
 
+### 与std::autoptr实现不同
+
+拷贝时原指针计数-1，新指针计数+1,r并没有失效
+```
+    template<typename Y>
+    TC_AutoPtr& operator=(const TC_AutoPtr<Y>& r)
+    {
+        if(_ptr != r._ptr)
+        {
+            if(r._ptr)
+            {
+                r._ptr->incRef();
+            }
+
+            T* ptr = _ptr;
+            _ptr = r._ptr;
+
+            if(ptr)
+            {
+                ptr->decRef();
+            }
+        }
+        return *this;
+    }
+```
+析构是decRef计数为0调用的
+
+```
+	A *a = new A("a");
+	A *b = new A("b");
+	cout << a << endl;
+	cout << b << endl;
+
+	cout << "TC_AutoPtr release begin" << endl;
+	{
+		TC_AutoPtr<A> spa(a);
+		TC_AutoPtr<A> spb(b);
+
+		spb = spa;
+
+		cout << spa->getRef()  <<endl;
+		cout << spb->getRef() << endl;
+
+		cout << spa->test()  <<endl;
+		cout << spb->test() << endl;
+	}
+	cout << "TC_AutoPtr release end" << endl;
+
+	cout << a->test() << endl;
+	cout << b->test() << endl;
+```
+
+结果：
+```
+0x1f8d040
+0x1f8d090
+TC_AutoPtr release begin
+release:b
+decRef(),curRef0
+2
+2
+a
+a
+decRef(),curRef1
+release:a
+decRef(),curRef0
+TC_AutoPtr release end
+段错误(吐核)
+
+
+
+```
+
+
+而std::autoptr =运算符如果不是操作同一个对象的时候会先删除左操作数指向的对象，后面指向右操作数指向的对象，再release()右操作数，从前面可以看到release() 只是将指针置空，并没有释放内存。从这里可以看到永远只有一个auto_ptr对象指向它。
+```
+  _Tp* release() __STL_NOTHROW {
+    _Tp* __tmp = _M_ptr;
+    _M_ptr = 0;
+    return __tmp;
+  }
+
+  auto_ptr& operator=(auto_ptr& __a) __STL_NOTHROW {
+    if (&__a != this) {
+      delete _M_ptr;
+      _M_ptr = __a.release();
+    }
+    return *this;
+  }
+
+```
+测试程序：
+```
+class A: public TC_HandleBaseT<int>
+{
+	public:
+	A(const string& name) { _name = name;}
+	string test() { return _name; }
+
+	~A() { cout << "release:" << _name << endl;}
+
+private:
+	string _name;
+};
+
+int main()
+{
+	A *a = new A("a");
+	A *b = new A("b");
+	cout << a << endl;
+	cout << b << endl;
+	
+	cout << "autoptr release begin" << endl;
+	{
+		std::auto_ptr<A> apa(a);
+		std::auto_ptr<A> apb(b);
+
+		apb = apa;
+
+		cout << apa.get()  <<endl;
+		cout << apb.get() << endl;
+	}
+	cout << "autoptr release end" << endl;
+
+	cout << a->test() << endl;
+	cout << b->test() << endl;
+```
+
+结果
+```
+0x900040
+0x900090
+autoptr release begin
+release:b
+0
+0x900040
+release:a
+autoptr release end
+段错误(吐核)
+
+```
+
 ### 空指针异常类TC_AutoPtrNull_Exception
 
 ```
@@ -382,5 +524,5 @@ inline bool operator<(const TC_AutoPtr<T>& lhs, const TC_AutoPtr<U>& rhs)
     else
     {
         return !l && r;
-  }
+    }
 ```

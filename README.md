@@ -31,3 +31,11 @@ Tars基础工具代码位于cpp/util。
 
 ###  智能指针类  tc_autoptr
 [tc_autoptr](util/tc_autoptr.md)
+
+###  共享智能指针类  tc_sharedptr
+[tc_sharedptr](util/tc_sharedptr.md)
+
+
+
+### Base64编解码类 tc_base64
+[tc_base64](util/tc_base64.md)
